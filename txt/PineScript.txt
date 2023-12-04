@@ -1,0 +1,18 @@
+//@version=5
+strategy("Estrategia de Tendencia Simplificada", overlay=true)
+
+// Parámetros de las medias móviles
+short_length = input(10, title="Short MA Length")
+long_length = input(50, title="Long MA Length")
+
+// Calcula las medias móviles
+short_ma = ta.sma(close, short_length)
+long_ma = ta.sma(close, long_length)
+
+// Condiciones de compra y venta
+buy_condition = ta.crossover(short_ma, long_ma)
+sell_condition = ta.crossunder(short_ma, long_ma)
+
+// Estrategia de compra y venta
+strategy.entry("Compra", strategy.long, when = buy_condition)
+strategy.entry("Venta", strategy.short, when = sell_condition)
