@@ -1,0 +1,20 @@
+//Calcular las medias móviles
+
+- Las medias móviles son
+
+En el momento en que crucen estas medias es el momento en el que deberemos comprar y vender.
+
+
+//Calcular las condiciones de compra y venta
+
+Las condiciones de compra y de venta se cumplen cuando se cruzan las líneas de medias.
+
+
+//Utilizar la estrategia de compra y venta (long y short)
+
+short == venta
+long == compra
+
+Enviar al software la solicitud de compra o venta
+
+
