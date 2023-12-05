@@ -1,0 +1,7 @@
+To calulate the moving average we should:
+
+- Get the current date
+- Create two time intervals from that (20-day & 50-day)
+- Get both responses for sais time intervals
+- Somehow (?) abstract the prices from the responses to two arrays
+- Make the average
