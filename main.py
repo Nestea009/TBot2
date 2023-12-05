@@ -55,25 +55,66 @@ def FindPrice():
 
   return actual_price
 
+def CalculateAv(url, headers):
+  #Calculates the average price of a time interval according to the amount of data (probably wrong)
 
-def Strategy():
-  url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-12-01&end=2023-12-04&limit=100&feed=iex&sort=asc"
-
-
-  headers1 = {
-    "accept": "application/json",
-    "APCA-API-KEY-ID": "PK42I07MH09F0ORJLLC1",
-    "APCA-API-SECRET-KEY": "3UQQh5eNtNRdlcUgespElmCD3JqW2iDOd6AiruZd"
-}
-
-  response = requests.get(url1, headers=headers)
+  response = requests.get(url, headers=headers)
 
   data = json.loads(response.text)
 
   arr = []
   for day in data["quotes"]:
     arr.append(day["ap"])
+  
+  sum = 0
+  count = 0
 
-  print(arr)
+  for number in arr:
+    if number != 0:
+      count += 1
+      sum += number
+
+  return sum/count
+
+
+
+def Strategy():
+  Bullish = False
+  Bearish = False
+
+  while True:
+    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-11-25&end=2023-12-04&limit=10000&feed=iex&sort=asc"
+    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-10-01&end=2023-12-04&limit=10000&feed=iex&sort=asc"
+
+    headers1 = {
+      "accept": "application/json",
+      "APCA-API-KEY-ID": "PK42I07MH09F0ORJLLC1",
+      "APCA-API-SECRET-KEY": "3UQQh5eNtNRdlcUgespElmCD3JqW2iDOd6AiruZd"
+    }
+
+    Average1 = CalculateAv(url1, headers1)
+    Average2 = CalculateAv(url2, headers1)
+
+    print(Average1)    #Calculate the average price of the first URL
+    print(Average2)    #Calculate the average price of the second URL
+
+    if round(Average1, 1) == round(Average2, 1):      # If the lines cross,
+      if Bullish:                                     # find out if it crosses under or above 
+        PlaceBuyAAPL()  #Long                         # and respond accordingly (buying or selling)
+      elif Bearish:
+        PlaceSellAPPL()  #Short
+
+    if Average1 > Average2:     #If the average of less time is above the one with more time,
+      Bullish = True            # it means that the price is higher than what is was before
+      Bearish = False           # and thus we're in an uptrend / bullish trend. And viceversa.
+      print("Bullish")
+    else:
+      Bearish = True
+      Bullish = False
+      print("Bearish")
+    
+
+    time.sleep(60)
+
 
 Strategy()
