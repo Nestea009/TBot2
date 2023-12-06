@@ -1,6 +1,7 @@
 import requests
 import time
 import json
+from datetime import date
 
 API_KEY = "PKMRS0PD5QOPSB14455X"
 API_SECRET = "RooSe7SdHmP3vQB1cshk2LxHZ5vY2lbjDu7v5cWD"
@@ -77,12 +78,47 @@ def CalculateAv(url, headers):
   return sum/count
 
 
-
 def Strategy():
   Bullish = False
   Bearish = False
 
   while True:
+    endDate1 = date.today()
+    endDate2 = date.today()
+
+    #For endDate1 (20 days off)
+    if endDate1.day >= 20:
+      endDate1.day -= 20
+    else: 
+      if endDate1.month > 1:
+        endDate1 = endDate1.replace(month=(endDate1.month - 1))
+        endDate1 = endDate1.replace(day=(endDate1.day + 10))
+      else:
+        endDate1 = endDate1.replace(year=(endDate1.year - 1))
+        endDate1 = endDate1.replace(month=(endDate1.month + 11))
+        endDate1 = endDate1.replace(day=(endDate1.day + 10))
+
+    print(endDate1)
+
+    #For endDate2 (50 days off)
+    if endDate2.month > 2 or (endDate2.month == 2 and endDate2.day > 20):
+      endDate2 = endDate2.replace(month=(endDate2.month - 1))
+      if endDate2.day > 20:
+        endDate2 = endDate2.replace(day=(endDate2 - 20))
+      else:
+        endDate2 = endDate2.replace(month=(endDate2.month - 1))
+        endDate2 = endDate2.replace(day=(endDate2.day + 10))
+    else:
+      endDate2 = endDate2.replace(year=(endDate2.year - 1)) #JUNTAR TODO!!!
+      endDate2 = endDate2.replace(month=(endDate2.month + 10))
+      if endDate2.day <= 20:
+        endDate2 = endDate2.replace(day=(endDate2 + 10))
+      else:
+        print("If this prints, dates are wrong :P")
+
+
+    print(endDate2)
+
     url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-11-25&end=2023-12-04&limit=10000&feed=iex&sort=asc"
     url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-10-01&end=2023-12-04&limit=10000&feed=iex&sort=asc"
 
@@ -114,7 +150,7 @@ def Strategy():
       print("Bearish")
     
 
-    time.sleep(60)
 
+    time.sleep(60)
 
 Strategy()
