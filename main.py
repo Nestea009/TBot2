@@ -86,33 +86,34 @@ def Strategy():
     endDate1 = date.today()
     endDate2 = date.today()
 
-    #For endDate1 (20 days off)
-    if endDate1.day > 20:
-      endDate1 = endDate1.replace(day=(endDate1.day - 20))
+    endDate1 = endDate1.replace(month=1, day= 2)
+    endDate2 = endDate2.replace(month=1, day= 1)
+
+    #For endDate1 (2 days off)
+    if endDate1.day > 2:
+      endDate1 = endDate1.replace(day = (endDate1.day - 2))
     else: 
       if endDate1.month > 1:
-        endDate1 = endDate1.replace(month=(endDate1.month - 1))
-        endDate1 = endDate1.replace(day=(endDate1.day + 10))
-      else:
-        endDate1 = endDate1.replace(year=(endDate1.year - 1))
-        endDate1 = endDate1.replace(month=(endDate1.month + 11))
-        endDate1 = endDate1.replace(day=(endDate1.day + 10))
+        if endDate1.month == 2:
+          endDate1 = endDate1.replace(month = (endDate1.month - 1), day = (endDate1.day + 26))
+        else:
+          endDate1 = endDate1.replace(month = (endDate1.month - 1), day = (endDate1.day + 28))
+      else: 
+        endDate1 = endDate1.replace(year=(endDate1.year - 1), month=(endDate1.month + 11), day=(endDate1.day + 29))
 
     print(endDate1)
 
-    #For endDate2 (50 days off)
-    if endDate2.month > 2 or (endDate2.month == 2 and endDate2.day > 20):
-      endDate2 = endDate2.replace(month=(endDate2.month - 1))
-      if endDate2.day > 20:
-        endDate2 = endDate2.replace(day=(endDate2.day - 20))
-      else:
-        endDate2 = endDate2.replace(month=(endDate2.month - 1))
-        endDate2 = endDate2.replace(day=(endDate2.day + 8))
-    else:
-      endDate2 = endDate2.replace(year=(endDate2.year - 1)) #JUNTAR TODO!!!
-      endDate2 = endDate2.replace(month=(endDate2.month + 10))
-      if endDate2.day <= 20:
-        endDate2 = endDate2.replace(day=(endDate2.day + 10))
+    #For endDate2 (6 days off)
+    if endDate2.day > 6:
+      endDate2 = endDate2.replace(day = (endDate2.day - 6))
+    else: 
+      if endDate2.month > 1:
+        if endDate2.month == 2:
+          endDate2 = endDate2.replace(month = (endDate2.month - 1), day = (endDate2.day + 22))
+        else:
+          endDate2 = endDate2.replace(month = (endDate2.month - 1), day = (endDate2.day + 24))
+      else: 
+        endDate2 = endDate2.replace(year=(endDate2.year - 1), month=(endDate2.month + 11), day=(endDate2.day + 25))
 
     print(endDate2)
 
