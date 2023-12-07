@@ -87,8 +87,8 @@ def Strategy():
     endDate2 = date.today()
 
     #For endDate1 (20 days off)
-    if endDate1.day >= 20:
-      endDate1.day -= 20
+    if endDate1.day > 20:
+      endDate1 = endDate1.replace(day=(endDate1.day - 20))
     else: 
       if endDate1.month > 1:
         endDate1 = endDate1.replace(month=(endDate1.month - 1))
@@ -104,15 +104,15 @@ def Strategy():
     if endDate2.month > 2 or (endDate2.month == 2 and endDate2.day > 20):
       endDate2 = endDate2.replace(month=(endDate2.month - 1))
       if endDate2.day > 20:
-        endDate2 = endDate2.replace(day=(endDate2 - 20))
+        endDate2 = endDate2.replace(day=(endDate2.day - 20))
       else:
         endDate2 = endDate2.replace(month=(endDate2.month - 1))
-        endDate2 = endDate2.replace(day=(endDate2.day + 10))
+        endDate2 = endDate2.replace(day=(endDate2.day + 8))
     else:
       endDate2 = endDate2.replace(year=(endDate2.year - 1)) #JUNTAR TODO!!!
       endDate2 = endDate2.replace(month=(endDate2.month + 10))
       if endDate2.day <= 20:
-        endDate2 = endDate2.replace(day=(endDate2 + 10))
+        endDate2 = endDate2.replace(day=(endDate2.day + 10))
       else:
         print("If this prints, dates are wrong :P")
 
