@@ -83,11 +83,9 @@ def Strategy():
   Bearish = False
 
   while True:
+    print("")
     endDate1 = date.today()
     endDate2 = date.today()
-
-    endDate1 = endDate1.replace(month=1, day= 2)
-    endDate2 = endDate2.replace(month=1, day= 1)
 
     #For endDate1 (2 days off)
     if endDate1.day > 2:
@@ -101,7 +99,7 @@ def Strategy():
       else: 
         endDate1 = endDate1.replace(year=(endDate1.year - 1), month=(endDate1.month + 11), day=(endDate1.day + 29))
 
-    print(endDate1)
+    #print(endDate1)
 
     #For endDate2 (6 days off)
     if endDate2.day > 6:
@@ -115,10 +113,10 @@ def Strategy():
       else: 
         endDate2 = endDate2.replace(year=(endDate2.year - 1), month=(endDate2.month + 11), day=(endDate2.day + 25))
 
-    print(endDate2)
+    #print(endDate2)
 
-    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate1) + "&end="+ str(date.today()) + "&limit=5000&feed=iex&sort=asc"
-    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate2) + "&end=" + str(date.today()) + "&limit=5000&feed=iex&sort=asc"
+    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate1) + "&end="+ str(date.today()) + "&limit=10000&feed=iex&sort=asc"
+    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate2) + "&end=" + str(date.today()) + "&limit=10000&feed=iex&sort=asc"
 
     headers1 = {
       "accept": "application/json",
@@ -141,14 +139,12 @@ def Strategy():
     if Average1 > Average2:     #If the average of less time is above the one with more time,
       Bullish = True            # it means that the price is higher than what is was before
       Bearish = False           # and thus we're in an uptrend / bullish trend. And viceversa.
-      print("Bullish")
+      #print("Bullish")
     else:
       Bearish = True
       Bullish = False
-      print("Bearish")
+      #print("Bearish")
     
-
-
     time.sleep(60)
 
 Strategy()

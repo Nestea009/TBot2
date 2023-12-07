@@ -1,0 +1,6 @@
+
+
+1. We are calling our function every 60 seconds, but the data is the exact same for the entire day.
+Maybe we could get data for every hour that passes?
+Maybe the data isn't dependant on the day because there's multiple numbers each day?
+Maybe we're doomed
