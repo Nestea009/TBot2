@@ -113,14 +113,11 @@ def Strategy():
       endDate2 = endDate2.replace(month=(endDate2.month + 10))
       if endDate2.day <= 20:
         endDate2 = endDate2.replace(day=(endDate2.day + 10))
-      else:
-        print("If this prints, dates are wrong :P")
-
 
     print(endDate2)
 
-    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-11-25&end=2023-12-04&limit=10000&feed=iex&sort=asc"
-    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=2023-10-01&end=2023-12-04&limit=10000&feed=iex&sort=asc"
+    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate1) + "&end="+ str(date.today()) + "&limit=5000&feed=iex&sort=asc"
+    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate2) + "&end=" + str(date.today()) + "&limit=5000&feed=iex&sort=asc"
 
     headers1 = {
       "accept": "application/json",
