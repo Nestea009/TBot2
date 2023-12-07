@@ -77,6 +77,11 @@ def CalculateAv(url, headers):
 
   return sum/count
 
+def AveragePrices(positive, days):
+  response = requests.get(url, headers=headers)
+
+  data = json.loads(response.text)
+
 
 def Strategy():
   Bullish = False
@@ -144,7 +149,21 @@ def Strategy():
       Bearish = True
       Bullish = False
       #print("Bearish")
+
+
+      #Calculate RSI
+
+      #Averages = for each dataPoint in data[highest price - lowest price] (in 14 intervals)
+      #Positive Averages >> If dataPoint > 0: positiveSum += dataPoint
+      #Negative Averages >> else: negativeSum -= dataPoint
+
+      #RS = positiveSum / negativeSum 
+      #RSI = 100- (100/(1 + RS))
+      #If Average Wins = 14: RSI = 100 (exception)
+
+      
     
     time.sleep(60)
 
+AveragePrices(True, 14, url)
 Strategy()
