@@ -216,6 +216,11 @@ def Strategy():
 
     RSI = (100 -(100/(1+RS)))
     print(RSI)
+
+    if RSI > 70:
+      PlaceSellAPPL()
+    elif RSI < 30:
+      PlaceBuyAAPL()
     
     time.sleep(60)
 
