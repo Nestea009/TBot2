@@ -64,8 +64,8 @@ def CalculateAv(url, headers):
   data = json.loads(response.text)
 
   arr = []
-  for day in data["quotes"]:
-    arr.append(day["ap"])
+  for day in data["bars"]:
+    arr.append(day["c"])
   
   sum = 0
   count = 0
@@ -77,10 +77,48 @@ def CalculateAv(url, headers):
 
   return sum/count
 
-def AveragePrices(positive, days):
+def RSCal(url):
   response = requests.get(url, headers=headers)
 
   data = json.loads(response.text)
+
+  arr = []
+
+  for DP in data["bars"]:
+    arr.append(DP["c"])
+
+  WinsSum = 0
+  Wins = 0
+  LossSum = 0
+  Losses = 0
+  LastPrice = arr[0]
+
+  for DP in arr:
+    if (DP - LastPrice) > 0:
+      #Positive
+      Wins += 1
+      WinsSum += (DP - LastPrice)
+    elif (DP - LastPrice) < 0:
+      #Negative
+      Losses += 1
+      LossSum -= (DP - LastPrice)
+
+    LastPrice = DP
+
+  if WinsSum == 0:
+    return 0
+  if LossSum == 0:
+    return 100000
+
+  AvWin = WinsSum/Wins
+  AvLoss = LossSum/Losses
+  
+  return (AvWin/AvLoss)
+    
+
+  
+
+
 
 
 def Strategy():
@@ -104,8 +142,6 @@ def Strategy():
       else: 
         endDate1 = endDate1.replace(year=(endDate1.year - 1), month=(endDate1.month + 11), day=(endDate1.day + 29))
 
-    #print(endDate1)
-
     #For endDate2 (6 days off)
     if endDate2.day > 6:
       endDate2 = endDate2.replace(day = (endDate2.day - 6))
@@ -118,10 +154,9 @@ def Strategy():
       else: 
         endDate2 = endDate2.replace(year=(endDate2.year - 1), month=(endDate2.month + 11), day=(endDate2.day + 25))
 
-    #print(endDate2)
 
-    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate1) + "&end="+ str(date.today()) + "&limit=10000&feed=iex&sort=asc"
-    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/quotes?start=" + str(endDate2) + "&end=" + str(date.today()) + "&limit=10000&feed=iex&sort=asc"
+    url1 = "https://data.alpaca.markets/v2/stocks/AAPL/bars?timeframe=15Min&start=" + str(endDate1) + "&end=" + str(date.today()) + "&limit=10000&adjustment=raw&feed=iex&sort=asc"
+    url2 = "https://data.alpaca.markets/v2/stocks/AAPL/bars?timeframe=15Min&start=" + str(endDate2) + "&end=" + str(date.today()) + "&limit=10000&adjustment=raw&feed=iex&sort=asc"
 
     headers1 = {
       "accept": "application/json",
@@ -151,19 +186,38 @@ def Strategy():
       #print("Bearish")
 
 
-      #Calculate RSI
+    #Calculate RSI
 
-      #Averages = for each dataPoint in data[highest price - lowest price] (in 14 intervals)
-      #Positive Averages >> If dataPoint > 0: positiveSum += dataPoint
-      #Negative Averages >> else: negativeSum -= dataPoint
+    #Averages = for each dataPoint in data[highest price - lowest price] (in 14 intervals)
+    #Positive Averages >> If dataPoint > 0: positiveSum += dataPoint
+    #Negative Averages >> else: negativeSum -= dataPoint
 
-      #RS = positiveSum / negativeSum 
-      #RSI = 100- (100/(1 + RS))
-      #If Average Wins = 14: RSI = 100 (exception)
+    #RS = positiveSum / negativeSum 
+    #RSI = 100- (100/(1 + RS))
+    #If Average Wins = 14: RSI = 100 (exception)
 
-      
+    endDate3 = date.today()
+
+    #Calculate endDate3 (14 days off)
+    if endDate3.day > 14:          
+      endDate3 = endDate3.replace(day = (endDate3.day - 14))
+    else: 
+      if endDate3.month > 1:
+        if endDate3.month == 2:
+          endDate3 = endDate3.replace(month = (endDate3.month - 1), day = (endDate3.day + 14))
+        else:
+          endDate3 = endDate3.replace(month = (endDate3.month - 1), day = (endDate3.day + 16))
+      else: 
+        endDate3 = endDate3.replace(year=(endDate3.year - 1), month=(endDate3.month + 11), day=(endDate3.day + 17))
+
+    url3 = "https://data.alpaca.markets/v2/stocks/AAPL/bars?timeframe=15Min&start=" + str(endDate3) + "&end=" + str(date.today()) + "&limit=10000&adjustment=raw&feed=iex&sort=asc"
+
+    RS = RSCal(url3)
+
+    RSI = (100 -(100/(1+RS)))
+    print(RSI)
     
     time.sleep(60)
 
-AveragePrices(True, 14, url)
+
 Strategy()
