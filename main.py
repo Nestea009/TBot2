@@ -126,11 +126,16 @@ def ExponentialAv(url, T):
 
   for DP in data["bars"]:
     c = DP["c"]
-    Exp = c * (2 / (1 + T)) + lastExp * (1- (2 / (1 + T)))
+    Exp = (c * (2 / (1 + T)) + lastExp * (1- (2 / (1 + T))))
     arr.append(Exp)
     lastExp = Exp
   
-  print(arr)
+  sum = 0
+
+  for price in arr:
+    sum += price
+
+  return (sum / len(arr))
 
 
 def Strategy():
@@ -182,11 +187,11 @@ def Strategy():
       "APCA-API-SECRET-KEY": "3UQQh5eNtNRdlcUgespElmCD3JqW2iDOd6AiruZd"
     }
 
-    Average1 = CalculateAv(url1, headers1)
-    Average2 = CalculateAv(url2, headers1)
+    Average1 = CalculateAv(url1, headers1)    #Calculate the average price of the first URL
+    Average2 = CalculateAv(url2, headers1)    #Calculate the average price of the second URL
 
-    print(Average1)    #Calculate the average price of the first URL
-    print(Average2)    #Calculate the average price of the second URL
+    print("SMA1:", Average1)    
+    print("SMA2:", Average2)    
 
     if round(Average1, 1) == round(Average2, 1):      # If the lines cross,
       if BullishS:                                     # find out if it crosses under or above 
@@ -225,7 +230,7 @@ def Strategy():
     RS = RSCal(url3)
 
     RSI = (100 -(100/(1+RS)))
-    print(RSI)
+    print("RSI: ", RSI)
 
     if RSI > 70:
       PlaceSellAPPL()
@@ -234,16 +239,57 @@ def Strategy():
 
     # MEDIA MÓVIL EXPONENCIAL (EMA)
 
-    ExponentialAv(url3, 14)
+    endDate4 = date.today()
+    endDate5 = date.today()
 
-    if Average1 > Average2:     #If the average of less time is above the one with more time,
-      BullishE = True            # it means that the price is higher than what is was before
-      BearishE = False           # and thus we're in an uptrend / bullish trend. And viceversa.
-      #print("Bullish")
+    # endDate4 (5 days off)
+
+    if endDate4.day > 5:          
+      endDate4 = endDate4.replace(day = (endDate4.day - 5))
+    else: 
+      if endDate4.month > 1:
+        if endDate4.month == 2:
+          endDate4 = endDate4.replace(month = (endDate4.month - 1), day = (endDate4.day + 23))
+        else:
+          endDate4 = endDate4.replace(month = (endDate4.month - 1), day = (endDate4.day + 25))
+      else: 
+        endDate4 = endDate4.replace(year=(endDate4.year - 1), month=(endDate4.month + 11), day=(endDate4.day + 26))
+
+    # endDate5 (15 days off)
+
+    if endDate5.day > 15:          
+      endDate5 = endDate5.replace(day = (endDate5.day - 15))
+    else: 
+      if endDate5.month > 1:
+        if endDate5.month == 2:
+          endDate5 = endDate5.replace(month = (endDate5.month - 1), day = (endDate5.day + 13))
+        else:
+          endDate5 = endDate5.replace(month = (endDate5.month - 1), day = (endDate5.day + 15))
+      else: 
+        endDate5 = endDate5.replace(year=(endDate5.year - 1), month=(endDate5.month + 11), day=(endDate5.day + 16))
+
+    url4 = "https://data.alpaca.markets/v2/stocks/AAPL/bars?timeframe=15Min&start=" + str(endDate4) + "&end=" + str(date.today()) + "&limit=10000&adjustment=raw&feed=iex&sort=asc"
+    url5 = "https://data.alpaca.markets/v2/stocks/AAPL/bars?timeframe=15Min&start=" + str(endDate5) + "&end=" + str(date.today()) + "&limit=10000&adjustment=raw&feed=iex&sort=asc"
+
+    EMA1 = ExponentialAv(url4, 5)
+    EMA2 = ExponentialAv(url5, 15) 
+
+    print("EMA1:", EMA1)
+    print("EMA2:", EMA2)
+
+
+    if round(EMA1, 1) == round(EMA2, 1):
+      if BullishE:
+        print("Would buy! (EMA)")
+      if BearishE:
+        print("Would sell! (EMA)")
+
+    if Average1 > Average2:    
+      BullishE = True           
+      BearishE = False           
     else:
       BearishE = True
       BullishE = False
-      #print("Bearish")
     
     time.sleep(60)
 
