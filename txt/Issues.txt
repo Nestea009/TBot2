@@ -1,6 +1,11 @@
-
-
 1. We are calling our function every 60 seconds, but the data is the exact same for the entire day.
 Maybe we could get data for every hour that passes?
 Maybe the data isn't dependant on the day because there's multiple numbers each day?
 Maybe we're doomed
+
+2. I have no clue if any of the code I wrote actually works and even though I will
+get to test it, there will probably be errors everywhere and I won't be able to find them.
+
+3. I am not sure if I should stick to the initial SMA, due to the lack of evidence I have that they
+will work. And maybe I am doing too many strategys at once? I don't think so, what could really happen
+due to having too many strategys if they all work?

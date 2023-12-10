@@ -116,10 +116,29 @@ def RSCal(url):
   return (AvWin/AvLoss)
     
 
+def ExponentialAv(url, T):
+  response = requests.get(url, headers=headers)
+
+  data = json.loads(response.text)
+
+  arr = []
+  lastExp = 0
+
+  for DP in data["bars"]:
+    c = DP["c"]
+    Exp = c * (2 / (1 + T)) + lastExp * (1- (2 / (1 + T)))
+    arr.append(Exp)
+    lastExp = Exp
+  
+  print(arr)
+
 
 def Strategy():
-  Bullish = False
-  Bearish = False
+  BullishS = False
+  BearishS = False
+
+  BullishE = False
+  BearishE = False
 
   while True:
 
@@ -170,18 +189,18 @@ def Strategy():
     print(Average2)    #Calculate the average price of the second URL
 
     if round(Average1, 1) == round(Average2, 1):      # If the lines cross,
-      if Bullish:                                     # find out if it crosses under or above 
+      if BullishS:                                     # find out if it crosses under or above 
         PlaceBuyAAPL()  #Long                         # and respond accordingly (buying or selling)
-      elif Bearish:
+      elif BearishS:
         PlaceSellAPPL()  #Short
 
     if Average1 > Average2:     #If the average of less time is above the one with more time,
-      Bullish = True            # it means that the price is higher than what is was before
-      Bearish = False           # and thus we're in an uptrend / bullish trend. And viceversa.
+      BullishS = True            # it means that the price is higher than what is was before
+      BearishS = False           # and thus we're in an uptrend / bullish trend. And viceversa.
       #print("Bullish")
     else:
-      Bearish = True
-      Bullish = False
+      BearishS = True
+      BullishS = False
       #print("Bearish")
 
 
@@ -215,7 +234,16 @@ def Strategy():
 
     # MEDIA MÓVIL EXPONENCIAL (EMA)
 
-    
+    ExponentialAv(url3, 14)
+
+    if Average1 > Average2:     #If the average of less time is above the one with more time,
+      BullishE = True            # it means that the price is higher than what is was before
+      BearishE = False           # and thus we're in an uptrend / bullish trend. And viceversa.
+      #print("Bullish")
+    else:
+      BearishE = True
+      BullishE = False
+      #print("Bearish")
     
     time.sleep(60)
 
