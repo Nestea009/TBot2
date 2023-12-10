@@ -116,16 +116,15 @@ def RSCal(url):
   return (AvWin/AvLoss)
     
 
-  
-
-
-
 
 def Strategy():
   Bullish = False
   Bearish = False
 
   while True:
+
+    # MEDIAS MÓVILES SIMPLES (SMA)
+
     print("")
     endDate1 = date.today()
     endDate2 = date.today()
@@ -186,15 +185,7 @@ def Strategy():
       #print("Bearish")
 
 
-    #Calculate RSI
-
-    #Averages = for each dataPoint in data[highest price - lowest price] (in 14 intervals)
-    #Positive Averages >> If dataPoint > 0: positiveSum += dataPoint
-    #Negative Averages >> else: negativeSum -= dataPoint
-
-    #RS = positiveSum / negativeSum 
-    #RSI = 100- (100/(1 + RS))
-    #If Average Wins = 14: RSI = 100 (exception)
+    # ÍNDICE DE FUERZA RELATIVO (RSI)
 
     endDate3 = date.today()
 
@@ -221,6 +212,10 @@ def Strategy():
       PlaceSellAPPL()
     elif RSI < 30:
       PlaceBuyAAPL()
+
+    # MEDIA MÓVIL EXPONENCIAL (EMA)
+
+    
     
     time.sleep(60)
 
