@@ -1,3 +1,4 @@
 0. SMA --
-1. EMA (Make the averages exponential)
+1. EMA (Make the averages exponential) -
 2. RSI --
+3. Backtesting !
