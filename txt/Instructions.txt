@@ -3,6 +3,7 @@ It's possible to do this (surprisingly), so here are the steps to make this all 
 1. Go to "C:\Program Files\PuTTY" and open the .exe
 2. Set the port to "COM3", the speed to 115200, the Connection Type to Serial and the flow control to None.
 3. Run it. If the console appears blank, just hit enter to make sure that there is a ">>>".
+(If the port is not correct you can check it at the Arduino App)
 
 4. Go to the CMD and cd into the directory of your files (TBot2)
 5. Run "ampy --port COM3 put test.py" with whatever file you want to port to the board.

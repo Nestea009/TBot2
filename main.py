@@ -1,7 +1,6 @@
 import requests
 import time
 import json
-from datetime import date
 
 API_KEY = "PKMRS0PD5QOPSB14455X"
 API_SECRET = "RooSe7SdHmP3vQB1cshk2LxHZ5vY2lbjDu7v5cWD"
@@ -56,8 +55,8 @@ def FindPrice():
 
   return actual_price
 
-PlaceBuyAAPL()
-PlaceBuyAAPL()
-PlaceBuyAAPL()
-PlaceBuyAAPL()
-PlaceBuyAAPL()
+PlaceBuyAAPL(FindPrice())
+PlaceBuyAAPL(FindPrice())
+PlaceBuyAAPL(FindPrice())
+PlaceBuyAAPL(FindPrice())
+PlaceBuyAAPL(FindPrice())
