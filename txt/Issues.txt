@@ -9,3 +9,14 @@ get to test it, there will probably be errors everywhere and I won't be able to 
 3. I am not sure if I should stick to the initial SMA, due to the lack of evidence I have that they
 will work. And maybe I am doing too many strategys at once? I don't think so, what could really happen
 due to having too many strategys if they all work?
+
+
+Update in the Arduino board:
+
+- In Arduino, there are 2 folders. (Supposedly) "test1.py" connects the board to the internet succesfully,
+but I cannot check because the "setup()" function won't print. I tried sniffing the devices
+in the network to see if the board is connected, but I can't seem to do that.
+
+Next I need to see if it is actually connected to the internet, or try to make the "setup()" 
+function work. When that's done we will go ahead and check if we can mix Arduino for the wifi and 
+MicroPython for the script or even if we can make both run automatically.
