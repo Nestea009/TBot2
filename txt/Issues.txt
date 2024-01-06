@@ -20,3 +20,18 @@ in the network to see if the board is connected, but I can't seem to do that.
 Next I need to see if it is actually connected to the internet, or try to make the "setup()" 
 function work. When that's done we will go ahead and check if we can mix Arduino for the wifi and 
 MicroPython for the script or even if we can make both run automatically.
+
+
+SOLUTION: We actually cannot proceed with the Arduino idea due to 2 limitations:
+
+1. We cannot both connect to the interet and run a script at the same time
+or at least I didn't find how. Maybe could be solved by running a MicroPython file through 
+Arduino (no idea how to do that).
+
+2. The Datetime module which we need for our trading strat to work is not found in MicroPython. I may 
+have been able to get around that with another module called "utime" which IS in MicroPython, but I 
+highly doubt it. Furthermore, I believe it also doesn't have the request module either, which would just
+kill the entire proyect as there would be no way around that, but again, not sure about this. 
+
+- What we can do instead is use Brython, a library for JS that allows us to run Python in a web
+server, and then use the github servers to run out programm as much as we want and with no costs.
