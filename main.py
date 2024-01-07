@@ -55,8 +55,4 @@ def FindPrice():
 
   return actual_price
 
-PlaceBuyAAPL(FindPrice())
-PlaceBuyAAPL(FindPrice())
-PlaceBuyAAPL(FindPrice())
-PlaceBuyAAPL(FindPrice())
-PlaceBuyAAPL(FindPrice())
+#PlaceBuyAAPL(FindPrice())

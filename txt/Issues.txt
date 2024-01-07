@@ -35,3 +35,9 @@ kill the entire proyect as there would be no way around that, but again, not sur
 
 - What we can do instead is use Brython, a library for JS that allows us to run Python in a web
 server, and then use the github servers to run out programm as much as we want and with no costs.
+
+
+ISSUE: Nor Brython or PyScript have the "requests" import, which means they have to be discarded and 
+that my assumption in the last issue was correct. Now we have very limited options unfortunately, 
+the most likely being running it on a free cloud server or running a Python file from a JS file
+in a web environment.
